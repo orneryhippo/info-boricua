@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Boricua</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ef4444 0%, #ffffff 50%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            color: #3b82f6;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+        
+        .display-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #eff6ff 100%);
+            border-radius: 16px;
+            padding: 24px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #3b82f6;
+            margin-bottom: 32px;
+        }
+        
+        .display-text {
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        button {
+            font-family: inherit;
+            font-weight: bold;
+            padding: 24px 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-time {
+            background: #3b82f6;
+        }
+        
+        .btn-time:hover {
+            background: #2563eb;
+        }
+        
+        .btn-weather {
+            background: #ef4444;
+        }
+        
+        .btn-weather:hover {
+            background: #dc2626;
+        }
+        
+        .btn-date {
+            background: #22c55e;
+        }
+        
+        .btn-date:hover {
+            background: #16a34a;
+        }
+        
+        .btn-greeting {
+            background: #a855f7;
+        }
+        
+        .btn-greeting:hover {
+            background: #9333ea;
+        }
+        
+        .icon {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Info Boricua</h1>
+        <p class="subtitle">Tu asistente en español puertorriqueño</p>
+        
+        <div class="display-box">
+            <p class="display-text" id="displayText">¡Wepa! Aprieta un botón pa' ver la información</p>
+        </div>
+        
+        <div class="button-grid">
+            <button class="btn-time" onclick="getTime()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>¿Qué hora es?</span>
+            </button>
+            
+            <button class="btn-weather" id="weatherBtn" onclick="getWeather()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg>
+                <span>¿Cómo está el tiempo?</span>
+            </button>
+            
+            <button class="btn-date" onclick="getDate()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>¿Qué día es hoy?</span>
+            </button>
+            
+            <button class="btn-greeting" onclick="getGreeting()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Saludos</span>
+            </button>
+        </div>
+        
+        <p class="footer">¡Dale! Usa los botones pa' practicar tu español boricua 🇵🇷</p>
+    </div>
+
+    <script>
+        function numberToSpanish(num) {
+            const ones = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+            const teens = ['diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+            const tens = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+            
+            if (num === 0) return 'cero';
+            if (num < 10) return ones[num];
+            if (num < 20) return teens[num - 10];
+            if (num < 30) return num === 20 ? 'veinte' : `veinti${ones[num - 20]}`;
+            
+            if (num < 100) {
+                const ten = Math.floor(num / 10);
+                const one = num % 10;
+                return one === 0 ? tens[ten] : `${tens[ten]} y ${ones[one]}`;
+            }
+            
+            if (num >= 1000) {
+                const thousand = Math.floor(num / 1000);
+                const remainder = num % 1000;
+                const thousandText = thousand === 1 ? 'mil' : `${numberToSpanish(thousand)} mil`;
+                return remainder === 0 ? thousandText : `${thousandText} ${numberToSpanish(remainder)}`;
+            }
+            
+            if (num >= 100) {
+                const hundred = Math.floor(num / 100);
+                const remainder = num % 100;
+                let hundredText;
+                if (hundred === 1) {
+                    hundredText = remainder === 0 ? 'cien' : 'ciento';
+                } else if (hundred === 5) {
+                    hundredText = 'quinientos';
+                } else if (hundred === 7) {
+                    hundredText = 'setecientos';
+                } else if (hundred === 9) {
+                    hundredText = 'novecientos';
+                } else {
+                    hundredText = `${ones[hundred]}cientos`;
+                }
+                return remainder === 0 ? hundredText : `${hundredText} ${numberToSpanish(remainder)}`;
+            }
+            
+            return num.toString();
+        }
+
+        function setDisplay(text) {
+            document.getElementById('displayText').textContent = text;
+        }
+
+        function getTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            
+            let hourText = '';
+            if (hours === 1 || hours === 13) {
+                hourText = 'Es la una';
+            } else if (hours === 0) {
+                hourText = 'Es la medianoche';
+            } else if (hours === 12) {
+                hourText = 'Es el mediodía';
+            } else {
+                const hour12 = hours % 12 || 12;
+                const hourNames = ['', 'una', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 'once', 'doce'];
+                hourText = `Son las ${hourNames[hour12]}`;
+            }
+            
+            let minuteText = '';
+            if (minutes === 0) {
+                minuteText = ' en punto';
+            } else if (minutes === 15) {
+                minuteText = ' y cuarto';
+            } else if (minutes === 30) {
+                minuteText = ' y media';
+            } else if (minutes === 45) {
+                minuteText = ' y cuarenta y cinco';
+            } else {
+                minuteText = ` y ${numberToSpanish(minutes)}`;
+            }
+            
+            const period = hours >= 12 ? 'de la tarde' : 'de la mañana';
+            if (hours >= 20 || hours < 6) {
+                setDisplay(`${hourText}${minuteText} de la noche. ¡Qué tarde!`);
+            } else {
+                setDisplay(`${hourText}${minuteText} ${period}.`);
+            }
+        }
+
+        async function getWeather() {
+            const weatherBtn = document.getElementById('weatherBtn');
+            weatherBtn.disabled = true;
+            setDisplay('Cargando...');
+            
+            try {
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=27.9378&longitude=-82.2859&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph');
+                const data = await response.json();
+                
+                const temp = Math.round(data.current.temperature_2m);
+                const weatherCode = data.current.weather_code;
+                
+                let weatherDesc = '';
+                if (weatherCode === 0) weatherDesc = 'está despejao';
+                else if (weatherCode <= 3) weatherDesc = 'está nublao';
+                else if (weatherCode <= 67) weatherDesc = 'está lloviendo';
+                else if (weatherCode <= 77) weatherDesc = 'está nevando';
+                else if (weatherCode <= 82) weatherDesc = 'está lloviznando';
+                else weatherDesc = 'está medio feo el tiempo';
+                
+                let tempComment = '';
+                if (temp > 85) tempComment = '¡Qué calor del diablo!';
+                else if (temp > 75) tempComment = 'Está haciendo calorcito.';
+                else if (temp > 65) tempComment = 'Está fresco.';
+                else tempComment = 'Está haciendo frío, búscate una chaqueta.';
+                
+                const tempText = numberToSpanish(temp);
+                setDisplay(`Aquí en Brandon ${weatherDesc}. Está a ${tempText} grados Fahrenheit. ${tempComment}`);
+            } catch (error) {
+                setDisplay('¡Ay bendito! No pude conseguir el tiempo. Chequea tu conexión.');
+            }
+            
+            weatherBtn.disabled = false;
+        }
+
+        function getDate() {
+            const now = new Date();
+            const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+            const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+            
+            const dayName = days[now.getDay()];
+            const day = now.getDate();
+            const dayText = numberToSpanish(day);
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const yearText = numberToSpanish(year);
+            
+            setDisplay(`Hoy es ${dayName}, ${dayText} de ${month} de ${yearText}.`);
+        }
+
+        function getGreeting() {
+            const greetings = [
+                '¡Wepa! ¿Qué lo qué?',
+                '¡Bendición! ¿Cómo tú tá?',
+                '¡Dímelo! ¿Qué e\' la que hay?',
+                '¡Qué volá! ¿Todo bien?',
+                '¡Epa! ¿Cómo va eso?',
+                '¡Klk! ¿Qué hace?',
+                '¡Ay bendito! ¿Qué pasa contigo?',
+                '¡Dale! ¿Cómo andamo?',
+                '¡Broki! ¿Qué tú cuenta?',
+                '¡Mano! ¿Tú tá bien?'
+            ];
+            
+            const random = greetings[Math.floor(Math.random() * greetings.length)];
+            setDisplay(random);
+        }
+    </script>
+</body>
+</html>
